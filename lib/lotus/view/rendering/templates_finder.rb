@@ -69,9 +69,11 @@ module Lotus
         #   Lotus::View::Rendering::TemplatesFinder.new(Articles::Show).find
         #     # => [#<Lotus::View::Template:0x007f8a0a86a970 ... @file="/path/to/templates/articles/show.html.erb">]
         def find
-          Dir.glob( "#{ [root, recursive, template_name].join(separator) }.#{ format }.#{ engines }" ).map do |template|
+          tmp = Dir.glob( "#{ [root, recursive, template_name].join(separator) }.#{ format }.#{ engines }" ).map do |template|
             View::Template.new template
           end
+          puts tmp.map { |x| x.instance_variable_get(:@_template).instance_variable_get(:@file) }.inspect
+          tmp
         end
 
         protected
